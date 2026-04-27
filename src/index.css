@@ -2,13 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* Anime streaming — neon cyberpunk dark theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 220 50% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 45% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 45% 10%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 195 100% 55%;
+    --primary-foreground: 220 50% 6%;
+
+    --secondary: 220 40% 14%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 35% 16%;
+    --muted-foreground: 215 20% 70%;
+
+    --accent: 195 100% 55%;
+    --accent-foreground: 220 50% 6%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 40% 18%;
+    --input: 220 45% 12%;
+    --ring: 195 100% 55%;
+
+    --radius: 1rem;
+
+    --neon-cyan: 195 100% 55%;
+    --neon-pink: 340 95% 62%;
+    --neon-purple: 252 75% 60%;
+
+    --gradient-hero: linear-gradient(180deg, hsl(220 50% 8%), hsl(220 55% 4%));
+    --gradient-card: linear-gradient(180deg, hsl(220 45% 12%), hsl(220 50% 8%));
+    --gradient-glow: radial-gradient(ellipse at top, hsl(195 100% 55% / 0.12), transparent 60%);
+
+    --shadow-cyan: 0 0 0 1px hsl(195 100% 55% / 0.4), 0 8px 30px hsl(195 100% 55% / 0.35);
+    --shadow-pink: 0 0 0 1px hsl(340 95% 62% / 0.4), 0 8px 30px hsl(340 95% 62% / 0.35);
+    --shadow-purple: 0 0 0 1px hsl(252 75% 60% / 0.4), 0 8px 30px hsl(252 75% 60% / 0.35);
+    --shadow-card: 0 0 0 1px hsl(220 40% 18%), 0 20px 40px hsl(220 60% 2% / 0.5);
+
+    --sidebar-background: 220 50% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 195 100% 55%;
+    --sidebar-primary-foreground: 220 50% 6%;
+    --sidebar-accent: 220 40% 14%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 40% 18%;
+    --sidebar-ring: 195 100% 55%;
+  }
+
+  .dark {
+    --background: 220 50% 6%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -101,5 +155,32 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-image: var(--gradient-glow);
+    background-attachment: fixed;
   }
+
+  h1, h2, .display {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
 }
+
+@layer utilities {
+  .text-gradient-neon {
+    background: linear-gradient(135deg, hsl(195 100% 65%), hsl(210 100% 70%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glow-cyan { box-shadow: var(--shadow-cyan); }
+  .glow-pink { box-shadow: var(--shadow-pink); }
+  .glow-purple { box-shadow: var(--shadow-purple); }
+  .bg-card-grad { background: var(--gradient-card); box-shadow: var(--shadow-card); }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; }
+}
+
+
