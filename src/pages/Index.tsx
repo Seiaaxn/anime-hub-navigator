@@ -231,13 +231,20 @@ const Index = () => {
             </section>
 
             <section>
-              <SectionTitle title="Genres" viewMoreHref="#" />
+              <SectionTitle title="Genres" viewMoreHref="/genres" />
               <div className="flex flex-wrap gap-2">
-                {GENRES.map((g) => (
-                  <a key={g} href="#" className="text-xs sm:text-sm px-4 py-2 rounded-full bg-secondary border border-border text-muted-foreground hover:text-primary hover:border-primary transition">
-                    {g}
-                  </a>
-                ))}
+                {GENRES.map((g) => {
+                  const slug = g.toLowerCase().replace(/\s+/g, "-");
+                  return (
+                    <button
+                      key={g}
+                      onClick={() => nav(`/genre/${slug}`)}
+                      className="text-xs sm:text-sm px-4 py-2 rounded-full bg-secondary border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
+                    >
+                      {g}
+                    </button>
+                  );
+                })}
               </div>
             </section>
 
@@ -273,12 +280,14 @@ const Index = () => {
         )}
 
         <footer className="pt-6 border-t border-border space-y-2">
-          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-            <a href="#" className="hover:text-primary">TOS</a>
+          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground flex-wrap">
+            <a href="/tos" onClick={(e) => { e.preventDefault(); nav("/tos"); }} className="hover:text-primary">TOS</a>
             <span>·</span>
-            <a href="#" className="hover:text-primary">DMCA</a>
+            <a href="/dmca" onClick={(e) => { e.preventDefault(); nav("/dmca"); }} className="hover:text-primary">DMCA</a>
             <span>·</span>
-            <a href="#" className="hover:text-primary">Discord</a>
+            <a href="/genres" onClick={(e) => { e.preventDefault(); nav("/genres"); }} className="hover:text-primary">Semua Genre</a>
+            <span>·</span>
+            <a href="https://discord.com/invite/ZYP9Ks6SmH" target="_blank" rel="noreferrer" className="hover:text-primary">Discord</a>
           </div>
           <p className="text-[10px] text-muted-foreground text-center">© 2026 NexaPlay — data oleh AniList.</p>
         </footer>
