@@ -209,15 +209,24 @@ export const SiteHeader = ({ onSearch }: { onSearch: (q: string) => void }) => {
                   <Compass className="h-4 w-4" /> PETA GENRE
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {GENRES.slice(0, 10).map((g) => (
-                    <button
-                      key={g}
-                      onClick={() => { setOpen(false); nav(`/?q=${encodeURIComponent(g)}`); }}
-                      className="text-xs px-3 py-1 rounded-full bg-secondary text-muted-foreground hover:text-primary border border-border"
-                    >
-                      {g}
-                    </button>
-                  ))}
+                  {GENRES.slice(0, 10).map((g) => {
+                    const slug = g.toLowerCase().replace(/\s+/g, "-");
+                    return (
+                      <button
+                        key={g}
+                        onClick={() => { setOpen(false); nav(`/genre/${slug}`); }}
+                        className="text-xs px-3 py-1 rounded-full bg-secondary text-muted-foreground hover:text-primary border border-border"
+                      >
+                        {g}
+                      </button>
+                    );
+                  })}
+                  <button
+                    onClick={() => { setOpen(false); nav("/genres"); }}
+                    className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/40 hover:bg-primary/20"
+                  >
+                    Lihat semua →
+                  </button>
                 </div>
               </div>
 
