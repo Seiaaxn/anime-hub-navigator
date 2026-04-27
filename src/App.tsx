@@ -11,6 +11,9 @@ import Detail from "./pages/Detail.tsx";
 import Watch from "./pages/Watch.tsx";
 import Profile from "./pages/Profile.tsx";
 import History from "./pages/History.tsx";
+import Genre from "./pages/Genre.tsx";
+import Genres from "./pages/Genres.tsx";
+import { TOS, DMCA } from "./pages/Legal.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -30,6 +33,10 @@ const App = () => (
             <Route path="/history" element={<History />} />
             <Route path="/anime/:id" element={<Detail />} />
             <Route path="/watch/:id/:ep" element={<Watch />} />
+            <Route path="/genres" element={<Genres />} />
+            <Route path="/genre/:slug" element={<Genre />} />
+            <Route path="/tos" element={<TOS />} />
+            <Route path="/dmca" element={<DMCA />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
