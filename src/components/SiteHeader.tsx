@@ -261,7 +261,15 @@ export const SiteHeader = ({ onSearch }: { onSearch: (q: string) => void }) => {
                 <MessageCircle className="h-4 w-4 fill-current" /> Join Nakama Discord
               </a>
 
-              <p className="text-[10px] text-center text-muted-foreground pt-4">© 2026 NexaPlay</p>
+              <div className="flex items-center justify-center gap-3 text-[11px] text-muted-foreground pt-2">
+                <button onClick={() => { setOpen(false); nav("/tos"); }} className="hover:text-primary">TOS</button>
+                <span>·</span>
+                <button onClick={() => { setOpen(false); nav("/dmca"); }} className="hover:text-primary">DMCA</button>
+                <span>·</span>
+                <button onClick={() => { setOpen(false); nav("/genres"); }} className="hover:text-primary">Semua Genre</button>
+              </div>
+
+              <p className="text-[10px] text-center text-muted-foreground pt-2">© 2026 NexaPlay</p>
             </div>
           </aside>
         </div>
