@@ -178,15 +178,35 @@ const History = () => {
                           >
                             <Play className="h-3 w-3 mr-1 fill-current" /> Lanjutkan EP {p.episode}
                           </Button>
-                          <Button
-                            size="icon"
-                            variant="ghost"
-                            onClick={() => remove(p.anime_id, p.title)}
-                            className="h-8 w-8 hover:bg-destructive/15 hover:text-destructive"
-                            title="Hapus"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-8 w-8 hover:bg-destructive/15 hover:text-destructive"
+                                title="Hapus"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Hapus dari riwayat?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  <span className="font-bold text-foreground">{p.title}</span> (EP {p.episode}) akan dihapus dari riwayat tontonmu. Tindakan ini tidak dapat dibatalkan.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Batal</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => remove(p.anime_id, p.title)}
+                                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                >
+                                  Ya, hapus
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     </div>
