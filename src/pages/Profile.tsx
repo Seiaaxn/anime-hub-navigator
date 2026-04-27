@@ -75,23 +75,47 @@ const Profile = () => {
     }
   };
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+  const ALLOWED_EXT = /\.(jpe?g|png)$/i;
+
+  const pickAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      toast.error("File harus berupa gambar");
+    const extOk = ALLOWED_EXT.test(file.name);
+    const typeOk = ALLOWED_TYPES.includes(file.type.toLowerCase());
+    if (!extOk || !typeOk) {
+      toast.error("Format tidak didukung", {
+        description: "Hanya file JPG atau PNG yang diperbolehkan untuk avatar.",
+      });
+      if (fileRef.current) fileRef.current.value = "";
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("Ukuran maksimal 5MB");
+      toast.error("Ukuran terlalu besar", { description: "Maksimal 5MB." });
+      if (fileRef.current) fileRef.current.value = "";
       return;
     }
+    // Show preview, wait for user to confirm
+    if (pendingPreview) URL.revokeObjectURL(pendingPreview);
+    setPendingFile(file);
+    setPendingPreview(URL.createObjectURL(file));
+  };
+
+  const cancelPending = () => {
+    if (pendingPreview) URL.revokeObjectURL(pendingPreview);
+    setPendingFile(null);
+    setPendingPreview(null);
+    if (fileRef.current) fileRef.current.value = "";
+  };
+
+  const confirmAvatarUpload = async () => {
+    if (!pendingFile || !user) return;
     setUploading(true);
     const tId = toast.loading("Mengunggah avatar…");
     try {
-      const ext = file.name.split(".").pop() || "png";
+      const ext = pendingFile.name.split(".").pop()?.toLowerCase() || "png";
       const path = `${user.id}/avatar-${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase.storage.from("avatars").upload(path, file, {
+      const { error: upErr } = await supabase.storage.from("avatars").upload(path, pendingFile, {
         cacheControl: "3600", upsert: true,
       });
       if (upErr) throw upErr;
@@ -101,11 +125,11 @@ const Profile = () => {
       if (dbErr) throw dbErr;
       setAvatarUrl(url);
       toast.success("Avatar diperbarui", { id: tId, description: "Foto profil baru sudah aktif." });
+      cancelPending();
     } catch (err: any) {
       toast.error("Gagal mengunggah avatar", { id: tId, description: err.message });
     } finally {
       setUploading(false);
-      if (fileRef.current) fileRef.current.value = "";
     }
   };
 
