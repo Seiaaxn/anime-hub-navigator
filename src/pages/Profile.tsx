@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Loader2, Save, User, Mail, Calendar, Heart, History as HistoryIcon, LogOut, Upload } from "lucide-react";
+import { Loader2, Save, User, Mail, Calendar, Heart, History as HistoryIcon, LogOut, Upload, Check, X } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -29,6 +29,8 @@ const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [createdAt, setCreatedAt] = useState<string | null>(null);
   const [historyCount, setHistoryCount] = useState(0);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [pendingPreview, setPendingPreview] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
