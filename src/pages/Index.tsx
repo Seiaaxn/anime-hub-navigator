@@ -188,14 +188,14 @@ const Index = () => {
                 { title: "Latest Completed", items: completed },
               ].map((b) => (
                 <div key={b.title} className="bg-card-grad rounded-2xl p-4">
-                  <SectionTitle title={b.title} viewMoreHref="#" />
+                  <SectionTitle title={b.title} viewMoreHref="/genres" />
                   <RowList items={b.items} onClick={watchAnime} />
                 </div>
               ))}
             </section>
 
             <section id="most-popular">
-              <SectionTitle title="Latest Episode" viewMoreHref="#" />
+              <SectionTitle title="Latest Episode" viewMoreHref="/genres" />
               <PortraitGrid items={trending} onClick={watchAnime} />
             </section>
 
