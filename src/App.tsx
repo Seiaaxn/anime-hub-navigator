@@ -3,24 +3,45 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index.tsx";
+import Auth from "./pages/Auth.tsx";
+import MyList from "./pages/MyList.tsx";
+import Detail from "./pages/Detail.tsx";
+import Watch from "./pages/Watch.tsx";
+import Profile from "./pages/Profile.tsx";
+import History from "./pages/History.tsx";
+import Genre from "./pages/Genre.tsx";
+import Genres from "./pages/Genres.tsx";
+import { TOS, DMCA } from "./pages/Legal.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/my-list" element={<MyList />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/anime/:id" element={<Detail />} />
+            <Route path="/watch/:id/:ep" element={<Watch />} />
+            <Route path="/genres" element={<Genres />} />
+            <Route path="/genre/:slug" element={<Genre />} />
+            <Route path="/tos" element={<TOS />} />
+            <Route path="/dmca" element={<DMCA />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
