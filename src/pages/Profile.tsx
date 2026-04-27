@@ -166,14 +166,14 @@ const Profile = () => {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <Avatar className="h-20 w-20 border-2 border-primary glow-cyan">
-                    <AvatarImage src={avatarUrl} alt={username} />
+                    <AvatarImage src={pendingPreview || avatarUrl} alt={username} />
                     <AvatarFallback className="bg-secondary text-primary font-black text-2xl">{initials}</AvatarFallback>
                   </Avatar>
                   <button
                     type="button"
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
-                    aria-label="Ganti avatar"
+                    aria-label="Pilih avatar"
                     className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary text-primary-foreground grid place-items-center border-2 border-background hover:scale-105 transition disabled:opacity-50"
                   >
                     {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
@@ -181,19 +181,53 @@ const Profile = () => {
                   <input
                     ref={fileRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg,image/jpg,image/png,.jpg,.jpeg,.png"
                     className="hidden"
-                    onChange={handleAvatarUpload}
+                    onChange={pickAvatar}
                   />
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="display text-xl font-black truncate">{username || user.email?.split("@")[0]}</p>
                   <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                     <Mail className="h-3 w-3" /> {user.email}
                   </p>
-                  <p className="text-[11px] text-muted-foreground mt-1">Klik ikon unggah untuk ganti foto (maks 5MB)</p>
+                  <p className="text-[11px] text-muted-foreground mt-1">
+                    {pendingPreview
+                      ? "Pratinjau avatar baru. Konfirmasi untuk menyimpan."
+                      : "Pilih foto JPG/PNG (maks 5MB) — pratinjau akan muncul sebelum disimpan."}
+                  </p>
                 </div>
               </div>
+
+              {pendingPreview && (
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/60 border border-border">
+                  <img src={pendingPreview} alt="Pratinjau avatar" className="h-14 w-14 rounded-lg object-cover border border-border" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold truncate">{pendingFile?.name}</p>
+                    <p className="text-[10px] text-muted-foreground mono">
+                      {pendingFile ? `${(pendingFile.size / 1024).toFixed(0)} KB` : ""} • Belum disimpan
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={confirmAvatarUpload}
+                    disabled={uploading}
+                    className="h-9 rounded-lg bg-primary text-primary-foreground font-bold"
+                  >
+                    {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Check className="h-4 w-4 mr-1" /> Konfirmasi</>}
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={cancelPending}
+                    disabled={uploading}
+                    aria-label="Batal"
+                    className="h-9 w-9"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
